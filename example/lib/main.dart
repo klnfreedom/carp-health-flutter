@@ -552,17 +552,30 @@ class HealthAppState extends State<HealthApp> {
           totalEnergyBurned: 150,
         );
 
+        // Add a small delay to allow the workout to be written before querying
+        await Future.delayed(const Duration(milliseconds: 500));
+
         workouts = await health.getHealthDataFromTypes(
           types: const [HealthDataType.WORKOUT],
           startTime: fallbackStart.subtract(const Duration(minutes: 1)),
           endTime: fallbackEnd.add(const Duration(minutes: 1)),
         );
+
+        // Retry once more if still empty after a longer delay
+        if (workouts.isEmpty) {
+          await Future.delayed(const Duration(seconds: 1));
+          workouts = await health.getHealthDataFromTypes(
+            types: const [HealthDataType.WORKOUT],
+            startTime: fallbackStart.subtract(const Duration(minutes: 1)),
+            endTime: fallbackEnd.add(const Duration(minutes: 1)),
+          );
+        }
       }
 
       workouts.sort((a, b) => b.dateTo.compareTo(a.dateTo));
       if (workouts.isEmpty) {
         throw StateError(
-          'Unable to find a workout to attach the route. Record a workout first.',
+          'Unable to find a workout to attach the route. The created workout may not be immediately available. Try running a workout manually first, or wait a moment and try again.',
         );
       }
 
@@ -1118,7 +1131,7 @@ class HealthAppState extends State<HealthApp> {
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       Text("Press 'Auth' to get permissions to access health data."),
-      Text("Press 'Fetch Dat' to get health data."),
+      Text("Press 'Fetch Data' to get health data."),
       Text("Press 'Add Data' to add some random health data."),
       Text("Press 'Delete Data' to remove some random health data."),
     ],

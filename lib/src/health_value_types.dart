@@ -213,8 +213,10 @@ class WorkoutHealthValue extends HealthValue {
 /// * [timestamp] - when the location sample was recorded.
 /// * [altitude] - optional altitude above sea level in meters.
 /// * [horizontalAccuracy] / [verticalAccuracy] - optional accuracy in meters.
-/// * [speed] - optional instantaneous speed in meters/second.
-/// * [course] - optional bearing (heading) in degrees.
+/// * [speed] - optional instantaneous speed in meters/second (iOS only).
+/// * [course] - optional bearing (heading) in degrees (iOS only).
+/// * [speedAccuracy] - optional accuracy of speed measurement in meters/second (iOS 13.4+ only).
+/// * [courseAccuracy] - optional accuracy of bearing measurement in degrees (iOS 13.4+ only).
 @JsonSerializable(includeIfNull: false, explicitToJson: true)
 class WorkoutRouteLocation extends Serializable {
   double latitude;

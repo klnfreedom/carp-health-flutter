@@ -931,8 +931,6 @@ class HealthDataReader {
             }
             if location.verticalAccuracy >= 0 {
                 entry["verticalAccuracy"] = location.verticalAccuracy
-            }
-            if location.verticalAccuracy >= 0 {
                 entry["altitude"] = location.altitude
             }
             if location.speed >= 0 {

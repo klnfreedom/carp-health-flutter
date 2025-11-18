@@ -208,7 +208,7 @@ Below is a simplified flow of how to use the plugin.
 
 ### Writing workout routes (iOS & Android)
 
-1. Request share/read permissions for both `HealthDataType.WORKOUT` and `HealthDataType.WORKOUT_ROUTE`, and ensure Core Location permissions are granted.
+1. Request share/read permissions for both `HealthDataType.WORKOUT` and `HealthDataType.WORKOUT_ROUTE`, and ensure location permissions are granted (iOS: Core Location permissions; Android: `ACCESS_FINE_LOCATION` or `ACCESS_COARSE_LOCATION`).
 2. When the workout session starts, open a builder with `final builderId = await health.startWorkoutRoute();`.
 3. Collect GPS samples using `CLLocationManager` (or an equivalent service) and periodically push ordered batches of `WorkoutRouteLocation` values via `insertWorkoutRouteData`.
 4. Save the workout itself (for example, with `writeWorkoutData`) and capture the resulting HealthKit workout UUID.
@@ -217,13 +217,12 @@ Below is a simplified flow of how to use the plugin.
 > **Health Connect note:** Android only surfaces routes while your app is in the foreground, and
 > other apps' routes may return a `ConsentRequired` flag. Today (Health Connect 1.1.0) the system
 > does **not** expose the `ExerciseRouteRequestContract` documented by Google, so the only way to
-> read third-party routes is to have the user manually grant “Always allow” for *Exercise routes*
+> read third-party routes is to have the user manually grant "Always allow" for *Exercise routes*
 > inside the Health Connect app (`Health Connect → App permissions → Your app → Exercise routes`).
-> Also remember to declare both
-> `<uses-permission android:name="android.permission.health.READ_EXERCISE_ROUTE"/>` (or
-> `...READ_EXERCISE_ROUTES`, depending on your Health Connect SDK) and
-> `<uses-permission android:name="android.permission.health.WRITE_EXERCISE_ROUTE"/>` in your Android
-> manifest.
+> Also remember to declare the following permissions in your Android manifest:
+> - `<uses-permission android:name="android.permission.health.READ_EXERCISE_ROUTE"/>`
+> - `<uses-permission android:name="android.permission.health.WRITE_EXERCISE_ROUTE"/>`
+> - `<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>` (or `ACCESS_COARSE_LOCATION`)
 
 ### Health Data
 
@@ -439,7 +438,7 @@ The plugin supports the following [`HealthDataType`](https://pub.dev/documentati
 | WATER                        | LITER                   | yes              | yes                       |                                                                                                                                    |
 | EXERCISE_TIME                | MINUTES                 | yes              |                           |                                                                                                                                    |
 | WORKOUT                      | NO_UNIT                 | yes              | yes                       | See table below                                                                                                                    |
-| WORKOUT_ROUTE                | NO_UNIT                 | yes              | yes                       | iOS 11+ and Android (as Exercise Route); use the workout route builder APIs described below.                                       |
+| WORKOUT_ROUTE                | NO_UNIT                 | yes              | yes                       | iOS 11+ and Android (as Exercise Route); use the workout route builder APIs described in the [Writing workout routes](#writing-workout-routes-ios--android) section above. |
 | HIGH_HEART_RATE_EVENT        | NO_UNIT                 | yes              |                           | Requires Apple Watch to write the data                                                                                             |
 | LOW_HEART_RATE_EVENT         | NO_UNIT                 | yes              |                           | Requires Apple Watch to write the data                                                                                             |
 | IRREGULAR_HEART_RATE_EVENT   | NO_UNIT                 | yes              |                           | Requires Apple Watch to write the data                                                                                             |
