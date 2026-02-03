@@ -120,6 +120,9 @@ class WorkoutHealthValue extends HealthValue {
   /// The type of the workout.
   HealthWorkoutActivityType workoutActivityType;
 
+  /// Raw workoutActivityType from native data format.
+  String? rawWorkoutActivityType;
+
   /// The total energy burned during the workout.
   /// Might not be available for all workouts.
   int? totalEnergyBurned;
@@ -146,6 +149,7 @@ class WorkoutHealthValue extends HealthValue {
 
   WorkoutHealthValue({
     required this.workoutActivityType,
+    this.rawWorkoutActivityType,
     this.totalEnergyBurned,
     this.totalEnergyBurnedUnit,
     this.totalDistance,
@@ -161,6 +165,7 @@ class WorkoutHealthValue extends HealthValue {
           (element) => element.name == dataPoint['workoutActivityType'],
           orElse: () => HealthWorkoutActivityType.OTHER,
         ),
+        rawWorkoutActivityType: dataPoint['workoutActivityType'] as String?,
         totalEnergyBurned: dataPoint['totalEnergyBurned'] != null
             ? (dataPoint['totalEnergyBurned'] as num).toInt()
             : null,
@@ -197,6 +202,7 @@ class WorkoutHealthValue extends HealthValue {
   @override
   String toString() =>
       """$runtimeType - workoutActivityType: ${workoutActivityType.name},
+           rawWorkoutActivityType: $rawWorkoutActivityType,
            totalEnergyBurned: $totalEnergyBurned,
            totalEnergyBurnedUnit: ${totalEnergyBurnedUnit?.name},
            totalDistance: $totalDistance,
@@ -208,6 +214,7 @@ class WorkoutHealthValue extends HealthValue {
   bool operator ==(Object other) =>
       other is WorkoutHealthValue &&
       workoutActivityType == other.workoutActivityType &&
+      rawWorkoutActivityType == other.rawWorkoutActivityType &&
       totalEnergyBurned == other.totalEnergyBurned &&
       totalEnergyBurnedUnit == other.totalEnergyBurnedUnit &&
       totalDistance == other.totalDistance &&
@@ -218,6 +225,7 @@ class WorkoutHealthValue extends HealthValue {
   @override
   int get hashCode => Object.hash(
     workoutActivityType,
+    rawWorkoutActivityType,
     totalEnergyBurned,
     totalEnergyBurnedUnit,
     totalDistance,
