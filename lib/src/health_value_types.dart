@@ -151,38 +151,25 @@ class WorkoutHealthValue extends HealthValue {
   });
 
   /// Create a [WorkoutHealthValue] based on a health data point from native data format.
-  factory WorkoutHealthValue.fromHealthDataPoint(dynamic dataPoint) =>
-      WorkoutHealthValue(
-        workoutActivityType: HealthWorkoutActivityType.values.firstWhere(
-          (element) => element.name == dataPoint['workoutActivityType'],
-          orElse: () => HealthWorkoutActivityType.OTHER,
-        ),
-        rawWorkoutActivityType: dataPoint['workoutActivityType'] as String?,
-        totalEnergyBurned: dataPoint['totalEnergyBurned'] != null
-            ? (dataPoint['totalEnergyBurned'] as num).toInt()
-            : null,
-        totalEnergyBurnedUnit: dataPoint['totalEnergyBurnedUnit'] != null
-            ? HealthDataUnit.values.firstWhere(
-                (element) => element.name == dataPoint['totalEnergyBurnedUnit'],
-              )
-            : null,
-        totalDistance: dataPoint['totalDistance'] != null
-            ? (dataPoint['totalDistance'] as num).toInt()
-            : null,
-        totalDistanceUnit: dataPoint['totalDistanceUnit'] != null
-            ? HealthDataUnit.values.firstWhere(
-                (element) => element.name == dataPoint['totalDistanceUnit'],
-              )
-            : null,
-        totalSteps: dataPoint['totalSteps'] != null
-            ? (dataPoint['totalSteps'] as num).toInt()
-            : null,
-        totalStepsUnit: dataPoint['totalStepsUnit'] != null
-            ? HealthDataUnit.values.firstWhere(
-                (element) => element.name == dataPoint['totalStepsUnit'],
-              )
-            : null,
-      );
+  factory WorkoutHealthValue.fromHealthDataPoint(dynamic dataPoint) => WorkoutHealthValue(
+    workoutActivityType: HealthWorkoutActivityType.values.firstWhere(
+      (element) => element.name == dataPoint['workoutActivityType'],
+      orElse: () => HealthWorkoutActivityType.OTHER,
+    ),
+    rawWorkoutActivityType: dataPoint['workoutActivityType'] as String?,
+    totalEnergyBurned: dataPoint['totalEnergyBurned'] != null ? (dataPoint['totalEnergyBurned'] as num).toInt() : null,
+    totalEnergyBurnedUnit: dataPoint['totalEnergyBurnedUnit'] != null
+        ? HealthDataUnit.values.firstWhere((element) => element.name == dataPoint['totalEnergyBurnedUnit'])
+        : null,
+    totalDistance: dataPoint['totalDistance'] != null ? (dataPoint['totalDistance'] as num).toInt() : null,
+    totalDistanceUnit: dataPoint['totalDistanceUnit'] != null
+        ? HealthDataUnit.values.firstWhere((element) => element.name == dataPoint['totalDistanceUnit'])
+        : null,
+    totalSteps: dataPoint['totalSteps'] != null ? (dataPoint['totalSteps'] as num).toInt() : null,
+    totalStepsUnit: dataPoint['totalStepsUnit'] != null
+        ? HealthDataUnit.values.firstWhere((element) => element.name == dataPoint['totalStepsUnit'])
+        : null,
+  );
 
   @override
   Function get fromJsonFunction => _$WorkoutHealthValueFromJson;
